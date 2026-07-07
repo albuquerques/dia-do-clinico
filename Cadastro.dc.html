@@ -95,7 +95,6 @@
     .exp-card:hover img { transform: scale(1.06); }
     .exp-scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(3,16,15,0) 45%, rgba(3,16,15,0.85) 100%); }
     .exp-cap { position: absolute; left: 14px; right: 14px; bottom: 14px; font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper); margin: 0; }
-    .exp-feats { display: grid; grid-template-columns: 1fr; gap: 16px; }
     .sobre-grid { display: grid; grid-template-columns: 1fr; gap: clamp(26px, 4vw, 40px); align-items: start; }
     .sobre-under { background: linear-gradient(var(--teal-600), var(--teal-600)) no-repeat; background-size: 100% 5px; background-position: 0 90%; }
     @media (min-width: 768px) {
@@ -106,7 +105,6 @@
       .hero-info { justify-content: flex-start; }
       .form-intro { align-items: flex-start; text-align: left; }
       .exp-gallery { grid-template-columns: repeat(4, 1fr); }
-      .exp-feats { grid-template-columns: repeat(3, 1fr); }
       .sobre-grid { grid-template-columns: 5fr 6fr; gap: clamp(44px, 6vw, 96px); align-items: center; }
     }
     @media (max-width: 767px) {
@@ -279,22 +277,6 @@
           <div class="exp-scrim"></div>
           <figcaption class="exp-cap">Prática guiada por instrutores</figcaption>
         </figure>
-      </div>
-
-      <!-- Pilares da experiência -->
-      <div class="exp-feats reveal">
-        <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 20px; border-top: 2px solid var(--divider-teal);">
-          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: clamp(18px, 2vw, 22px); margin: 0; color: var(--paper);">Imersão presencial</h3>
-          <p style="font-size: 14px; line-height: 1.6; color: var(--mist); margin: 0;">Dias intensivos de prática em urgências, com a mão na massa do início ao fim.</p>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 20px; border-top: 2px solid var(--divider-teal);">
-          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: clamp(18px, 2vw, 22px); margin: 0; color: var(--paper);">Estações clínicas</h3>
-          <p style="font-size: 14px; line-height: 1.6; color: var(--mist); margin: 0;">Sutura, via aérea, RCP e mais — cada técnica treinada de verdade, no seu tempo.</p>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 20px; border-top: 2px solid var(--divider-teal);">
-          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: clamp(18px, 2vw, 22px); margin: 0; color: var(--paper);">Cenários reais</h3>
-          <p style="font-size: 14px; line-height: 1.6; color: var(--mist); margin: 0;">Simulações de alta fidelidade que recriam a pressão do plantão.</p>
-        </div>
       </div>
 
       <!-- Nota de curiosidade -->
