@@ -239,24 +239,6 @@
     </div>
   </section>
 
-  <!-- O QUE VOCÊ VAI ENCONTRAR -->
-  <section style="padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 56px); border-top: 1px solid rgba(238, 244, 245, 0.08);">
-    <div class="reveal" style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 720px; margin: 0 auto clamp(32px, 4vw, 48px);">
-      <div style="font-weight: 600; font-size: clamp(12px, 1.3vw, 14px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-300);">No aulão</div>
-      <h2 style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(28px, 4.5vw, 46px); line-height: 1.08; letter-spacing: -0.02em; margin: 0; color: var(--paper);">O que você vai encontrar</h2>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(16px, 2vw, 22px); max-width: 1080px; margin: 0 auto;">
-      <sc-for list="{{ beneficios }}" as="item" hint-placeholder-count="4">
-        <div class="reveal benefit-card" style="display: flex; flex-direction: column; gap: 12px; background: var(--ink-800); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 12px; padding: clamp(22px, 3vw, 30px); transition: transform 260ms var(--ease-standard), border-color 260ms var(--ease-standard), box-shadow 260ms var(--ease-standard);">
-          <span style="font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; color: var(--teal-400);">{{ item.num }}</span>
-          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: clamp(18px, 2vw, 21px); line-height: 1.2; margin: 0; color: var(--paper);">{{ item.titulo }}</h3>
-          <p style="font-size: 14px; line-height: 1.6; color: var(--mist); margin: 0;">{{ item.desc }}</p>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-
   <!-- LANÇAMENTO EXPERIÊNCIA MEDSAFE -->
   <section style="position: relative; overflow: hidden; padding: clamp(48px, 7vw, 96px) clamp(20px, 5vw, 56px); border-top: 1px solid rgba(238, 244, 245, 0.08);">
     <div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(70% 55% at 50% 0%, rgba(8, 179, 161, 0.14) 0%, rgba(8, 179, 161, 0) 65%); pointer-events: none;"></div>
@@ -418,12 +400,6 @@ class Component extends DCLogic {
       hasVideo: !!videoSrc,
       noVideo: !videoSrc,
       ladoClass: lado === 'esquerda' ? 'lado-esq' : 'lado-dir',
-      beneficios: [
-        { num: '01', titulo: 'Resolução de questões', desc: 'Questões de Clínica Médica comentadas ao vivo, do enunciado à resposta certa.' },
-        { num: '02', titulo: 'Revisão de temas essenciais', desc: 'Os assuntos que mais caem e mais aparecem na rotina, revisados com foco.' },
-        { num: '03', titulo: 'Raciocínio clínico', desc: 'O caminho da decisão: como pensar o caso e chegar à conduta correta.' },
-        { num: '04', titulo: 'Aplicável na prática', desc: 'Conteúdo direto para provas, internato e a rotina hospitalar do dia a dia.' },
-      ],
       onSubmit: (e) => {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(e.target).entries());
