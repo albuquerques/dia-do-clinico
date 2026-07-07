@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/Cadastro.dc.html" },
+    { "source": "/obrigado", "destination": "/Obrigado.dc.html" }
+  ]
+}
