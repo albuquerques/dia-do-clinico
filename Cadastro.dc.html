@@ -190,7 +190,7 @@
       <!-- Coluna vídeo 9:16 -->
       <div class="hero-video" style="flex: 0 1 340px; min-width: 0; width: 100%; max-width: 360px; margin: 0 auto; position: relative; animation: riseIn 760ms var(--ease-out) 240ms both;">
         <sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
-          <video src="{{ videoSrc }}" controls playsinline poster="" style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: var(--ink-950); box-shadow: var(--glow-teal-md); object-fit: cover; display: block;"></video>
+          <video src="{{ videoSrc }}" controls playsinline poster="assets/dia-do-clinico-cover.png" style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: var(--ink-950); box-shadow: var(--glow-teal-md); object-fit: cover; display: block;"></video>
         </sc-if>
         <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
           <div style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: radial-gradient(65% 45% at 50% 30%, rgba(8, 179, 161, 0.2) 0%, rgba(8, 179, 161, 0) 72%), var(--ink-950); box-shadow: var(--glow-teal-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; position: relative; overflow: hidden;">
@@ -334,7 +334,7 @@
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1160,&quot;height&quot;:900},&quot;videoSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vídeo&quot;,&quot;label&quot;:&quot;URL do vídeo convite (9:16)&quot;},&quot;videoLado&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;direita&quot;,&quot;options&quot;:[&quot;esquerda&quot;,&quot;direita&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;,&quot;label&quot;:&quot;Lado do vídeo no hero&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1160,&quot;height&quot;:900},&quot;videoSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;assets/dia-do-clinico.mp4&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vídeo&quot;,&quot;label&quot;:&quot;URL do vídeo convite (9:16)&quot;},&quot;videoLado&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;direita&quot;,&quot;options&quot;:[&quot;esquerda&quot;,&quot;direita&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;,&quot;label&quot;:&quot;Lado do vídeo no hero&quot;}}">
 class Component extends DCLogic {
   componentDidMount() {
     // CTA no header aparece só depois de rolar
@@ -383,7 +383,7 @@ class Component extends DCLogic {
     check();
   }
   renderVals() {
-    const videoSrc = this.props.videoSrc ?? '';
+    const videoSrc = this.props.videoSrc ?? 'assets/dia-do-clinico.mp4';
     const lado = this.props.videoLado ?? 'direita';
     return {
       videoSrc,
