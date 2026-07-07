@@ -34,13 +34,22 @@
       --font-heading: 'Bricolage Grotesque', 'IBM Plex Sans', sans-serif;
     }
     html, body { margin: 0; padding: 0; }
-    body {
-      background-color: #041215;
+    body { background-color: #041215; }
+    /* Fundo fixo via pseudo-elemento em vez de `background-attachment: fixed` no body:
+       no Safari iOS, um fixed background no body calcula o `cover` pela altura total
+       do documento (muito maior que a tela) em vez da viewport, aparecendo com zoom
+       excessivo e baixa nitidez. Um elemento fixed do tamanho da viewport evita isso. */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
       background-image: url('assets/bg-mobile.png');
       background-size: cover; background-position: center;
-      background-attachment: fixed; background-repeat: no-repeat;
+      background-repeat: no-repeat;
+      pointer-events: none;
     }
-    @media (min-width: 768px) { body { background-image: url('assets/bg-desktop.png'); } }
+    @media (min-width: 768px) { body::before { background-image: url('assets/bg-desktop.png'); } }
     a { color: var(--teal-300); text-decoration: none; }
     a:hover { color: var(--teal-200); }
     @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
