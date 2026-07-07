@@ -38,6 +38,7 @@
       --font-heading: 'Bricolage Grotesque', 'IBM Plex Sans', sans-serif;
     }
     html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body { background-color: #020a0b; }
     /* Fundo fixo via pseudo-elemento em vez de `background-attachment: fixed` no body:
        no Safari iOS, um fixed background no body calcula o `cover` pela altura total
@@ -79,9 +80,26 @@
     .cta-arrow { display: inline-block; transition: transform 220ms var(--ease-standard); }
     .cta-btn:hover .cta-arrow { transform: translateX(5px); }
     .reveal { transition: opacity 660ms var(--ease-out), translate 660ms var(--ease-out); }
+
+    /* --- Animação de títulos, letra por letra --- */
+    .char-split .word { display: inline-block; white-space: nowrap; }
+    .char-split .char { display: inline-block; opacity: 0; transform: translateY(0.45em) rotate(4deg); animation: charIn 620ms var(--ease-out) forwards; animation-play-state: paused; }
+    .char-split.in-view .char { animation-play-state: running; }
+    @keyframes charIn { to { opacity: 1; transform: translateY(0) rotate(0deg); } }
+
+    /* --- CTA leva ao formulário: chegada com destaque --- */
+    .form-highlight { animation: formArrive 1000ms var(--ease-out); }
+    @keyframes formArrive {
+      0%, 100% { box-shadow: var(--glow-teal-sm); }
+      40% { box-shadow: 0 0 0 5px rgba(8, 179, 161, 0.35), var(--glow-teal-md); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition: none !important; }
       .reveal { opacity: 1 !important; translate: none !important; }
+      .char-split .char { opacity: 1 !important; transform: none !important; }
+      .sobre-under { background-size: 100% 5px !important; }
     }
 
     /* --- Hero responsivo (mobile-first) --- */
@@ -104,7 +122,9 @@
     .exp-scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(3,16,15,0) 45%, rgba(3,16,15,0.85) 100%); }
     .exp-cap { position: absolute; left: 14px; right: 14px; bottom: 14px; font-weight: 600; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper); margin: 0; }
     .sobre-grid { display: grid; grid-template-columns: 1fr; gap: clamp(26px, 4vw, 40px); align-items: start; }
-    .sobre-under { background: linear-gradient(var(--teal-600), var(--teal-600)) no-repeat; background-size: 100% 5px; background-position: 0 90%; }
+    .sobre-under { background: linear-gradient(var(--teal-600), var(--teal-600)) no-repeat; background-size: 0% 5px; background-position: 0 90%; animation: underlineIn 480ms var(--ease-out) forwards; animation-play-state: paused; }
+    .char-split.in-view .sobre-under { animation-play-state: running; }
+    @keyframes underlineIn { to { background-size: 100% 5px; } }
     @media (min-width: 768px) {
       .hero-row { flex-direction: row; align-items: center; }
       .hero-row.lado-esq { flex-direction: row-reverse; }
@@ -117,6 +137,7 @@
     }
     @media (max-width: 767px) {
       .hero-info > div { border-right: none !important; padding-left: 12px !important; padding-right: 12px !important; align-items: center; text-align: center; }
+      .nav-cta { padding: 9px 14px !important; font-size: 12px !important; gap: 6px !important; }
     }
     .deco-book {
       position: absolute; pointer-events: none; background: var(--paper);
@@ -149,7 +170,7 @@
       <span aria-hidden="true" style="width: 1px; height: 26px; background: rgba(238, 244, 245, 0.18); flex: 0 0 auto;"></span>
       <span style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(15px, 2vw, 18px); letter-spacing: -0.01em; color: var(--paper); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Dia do <span style="color: var(--teal-300);">Clínico</span></span>
     </div>
-    <a href="#inscricao" class="cta-btn" style="display: none; align-items: center; gap: 8px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 13px; letter-spacing: 0.04em; border-radius: 8px; padding: 11px 20px; box-shadow: var(--glow-teal-sm); transition: background 220ms; flex: 0 0 auto;" style-hover="background: var(--brand-hover); color: var(--on-brand);" data-nav-cta>Quero me inscrever</a>
+    <a href="#inscricao" class="cta-btn nav-cta" style="display: none; align-items: center; gap: 8px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 13px; letter-spacing: 0.04em; border-radius: 8px; padding: 11px 20px; box-shadow: var(--glow-teal-sm); transition: background 220ms; flex: 0 0 auto;" style-hover="background: var(--brand-hover); color: var(--on-brand);" data-nav-cta>Quero participar</a>
   </header>
 
   <!-- HERO -->
@@ -164,9 +185,9 @@
           <span style="font-weight: 600; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-200);">Live online · 23 de julho</span>
         </div>
 
-        <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(48px, 8.5vw, 96px); line-height: 0.98; letter-spacing: -0.03em; margin: 0; color: var(--paper);">Dia do <span style="color: var(--teal-300);">Clínico</span></h1>
+        <h1 class="char-split in-view" style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(40px, 6.5vw, 72px); line-height: 1.05; letter-spacing: -0.03em; margin: 0; color: var(--paper);">Anos de estudo, mastigados pro seu <span style="color: var(--teal-300);">plantão</span></h1>
 
-        <p style="font-size: clamp(17px, 2vw, 21px); line-height: 1.6; color: var(--mist); max-width: 540px; margin: 0; text-wrap: pretty;">Um aulão completo de Clínica Médica, ao vivo: resolução de questões, revisão dos temas que mais caem e o raciocínio por trás de cada conduta.</p>
+        <p style="font-size: clamp(17px, 2vw, 21px); line-height: 1.6; color: var(--mist); max-width: 540px; margin: 0; text-wrap: pretty;">Um aulão completo de Clínica Médica, ao vivo: tudo o que absorvemos nesses anos de educação médica, consolidado e mastigado pra você aplicar direto no plantão e na rotina prática.</p>
 
         <!-- Info do evento -->
         <div class="hero-info" style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px;">
@@ -184,13 +205,13 @@
           </div>
         </div>
 
-        <a href="#inscricao" class="cta-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 14px; letter-spacing: 0.04em; border-radius: 8px; padding: 14px 26px; box-shadow: var(--glow-teal-sm); transition: background 220ms, box-shadow 220ms; min-height: 48px; margin-top: 4px;" style-hover="background: var(--brand-hover); color: var(--on-brand); box-shadow: var(--glow-teal-md);" style-active="background: var(--brand-press);">Quero me inscrever <span class="cta-arrow">→</span></a>
+        <a href="#inscricao" class="cta-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 14px; letter-spacing: 0.04em; border-radius: 8px; padding: 14px 26px; box-shadow: var(--glow-teal-sm); transition: background 220ms, box-shadow 220ms; min-height: 48px; margin-top: 4px;" style-hover="background: var(--brand-hover); color: var(--on-brand); box-shadow: var(--glow-teal-md);" style-active="background: var(--brand-press);">Quero participar <span class="cta-arrow">→</span></a>
       </div>
 
       <!-- Coluna vídeo 9:16 -->
       <div class="hero-video" style="flex: 0 1 340px; min-width: 0; width: 100%; max-width: 360px; margin: 0 auto; position: relative; animation: riseIn 760ms var(--ease-out) 240ms both;">
         <sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
-          <video data-hero-video src="{{ videoSrc }}" controls playsinline poster="assets/dia-do-clinico-cover.png" style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: var(--ink-950); box-shadow: var(--glow-teal-md); object-fit: cover; display: block;"></video>
+          <video data-hero-video src="{{ videoSrc }}" controls="{{ true }}" playsinline="{{ true }}" poster="assets/dia-do-clinico-cover.png" style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: var(--ink-950); box-shadow: var(--glow-teal-md); object-fit: cover; display: block;"></video>
           <button type="button" data-hero-play aria-label="Reproduzir vídeo" style="position: absolute; inset: 0; margin: auto; width: 82px; height: 82px; padding: 0; border: 1.5px solid var(--divider-teal); border-radius: 50%; background: rgba(8, 179, 161, 0.14); display: flex; align-items: center; justify-content: center; animation: pulseGlow 3s var(--ease-standard) infinite; cursor: pointer; backdrop-filter: blur(2px);">
             <span aria-hidden="true" style="width: 0; height: 0; border-left: 24px solid var(--teal-300); border-top: 14px solid transparent; border-bottom: 14px solid transparent; margin-left: 7px;"></span>
           </button>
@@ -209,8 +230,8 @@
           </div>
         </sc-if>
 
-        <!-- Área complementar: foto do Dr. Brenno -->
-        <div style="position: absolute; left: -14px; bottom: -18px; display: flex; align-items: center; gap: 12px; background: rgba(8, 34, 39, 0.92); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 999px; padding: 8px 18px 8px 8px; box-shadow: var(--glow-teal-sm); backdrop-filter: blur(6px);">
+        <!-- Área complementar: foto do Dr. Brenno. pointer-events: none evita bloquear os controles nativos do vídeo por baixo; some com fade ao dar play (ver componentDidMount) -->
+        <div data-hero-badge style="position: absolute; left: -14px; bottom: -18px; display: flex; align-items: center; gap: 12px; background: rgba(8, 34, 39, 0.92); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 999px; padding: 8px 18px 8px 8px; box-shadow: var(--glow-teal-sm); backdrop-filter: blur(6px); pointer-events: none; transition: opacity 320ms var(--ease-out);">
           <img src="assets/dr-brenno.png" alt="Dr. Brenno" style="width: 52px; height: 52px; flex: 0 0 auto; border-radius: 50%; object-fit: cover; object-position: center 22%; box-shadow: 0 0 0 2px rgba(3, 16, 15, 0.6);">
           <div style="display: flex; flex-direction: column; gap: 1px;">
             <span style="font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--paper); line-height: 1.1;">Dr. Brenno</span>
@@ -233,16 +254,16 @@
           <span aria-hidden="true" style="width: 30px; height: 2px; background: var(--teal-400);"></span>
           <span style="font-weight: 600; font-size: clamp(12px, 1.3vw, 14px); letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-300);">Sobre a live</span>
         </div>
-        <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(38px, 6vw, 66px); line-height: 1.0; letter-spacing: -0.035em; margin: 0; color: var(--paper);">Menos decoreba.<br>Mais <span class="sobre-under" style="color: var(--teal-300);">raciocínio</span> clínico.</h2>
+        <h2 class="char-split" style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(38px, 6vw, 66px); line-height: 1.0; letter-spacing: -0.035em; margin: 0; color: var(--paper);">Menos decoreba.<br>Mais <span class="sobre-under" style="color: var(--teal-300);">raciocínio</span> clínico.</h2>
       </div>
 
       <!-- Lado do texto + leitura clínica -->
       <div class="reveal" style="display: flex; flex-direction: column; gap: 26px;">
-        <p style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.65; color: var(--paper-dim); margin: 0; text-wrap: pretty;">No <strong style="color: var(--paper); font-weight: 600;">Dia do Clínico</strong>, cada questão vira uma conversa: por que essa é a resposta, onde o caso te engana e como decidir quando o paciente está na sua frente.</p>
-        <p style="font-size: clamp(15px, 1.5vw, 17px); line-height: 1.7; color: var(--mist); margin: 0; text-wrap: pretty;">Clínica Médica de verdade — do jeito que cai na prova, aparece no internato e chega no corredor do hospital.</p>
+        <p style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.65; color: var(--paper-dim); margin: 0; text-wrap: pretty;">No <strong style="color: var(--paper); font-weight: 600;">Dia do Clínico</strong>, anos de aprendizado viram conversa: o que fazer, por que fazer e como decidir quando o paciente está na sua frente, no plantão.</p>
+        <p style="font-size: clamp(15px, 1.5vw, 17px); line-height: 1.7; color: var(--mist); margin: 0; text-wrap: pretty;">Clínica Médica de verdade — a que você usa no plantão, no internato e no corredor do hospital, sem enrolação.</p>
         <div style="display: inline-flex; align-items: center; gap: 12px; align-self: flex-start; max-width: 100%; padding: 13px 20px; border: 1px solid var(--divider-teal); border-radius: 10px; background: rgba(3, 16, 15, 0.5); box-shadow: var(--glow-teal-sm);">
           <span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: var(--alert); animation: livePulse 1.8s ease-in-out infinite; flex: 0 0 auto;"></span>
-          <span style="font-weight: 600; font-size: clamp(10px, 1.2vw, 12px); letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper);">Ao vivo · Clínica Médica · Questões comentadas</span>
+          <span style="font-weight: 600; font-size: clamp(10px, 1.2vw, 12px); letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper);">Ao vivo · Clínica Médica · Conteúdo pra prática</span>
         </div>
       </div>
     </div>
@@ -262,7 +283,7 @@
           <span style="font-weight: 600; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-200);">Lançamento oficial</span>
         </div>
         <img src="assets/logo-horizontal-negative.svg" alt="Experiência Medsafe" style="height: clamp(48px, 7vw, 70px); width: auto; max-width: 100%; filter: drop-shadow(0 0 26px rgba(8, 179, 161, 0.32)); margin: 6px 0;">
-        <h2 style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(28px, 4.6vw, 48px); line-height: 1.08; letter-spacing: -0.02em; margin: 0; color: var(--paper); max-width: 760px; text-wrap: balance;">Você vai conhecer de perto, <span style="color: var(--teal-300);">durante a live</span>.</h2>
+        <h2 class="char-split" style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(28px, 4.6vw, 48px); line-height: 1.08; letter-spacing: -0.02em; margin: 0; color: var(--paper); max-width: 760px; text-wrap: balance;">Você vai conhecer de perto, <span style="color: var(--teal-300);">durante a live</span>.</h2>
         <p style="font-size: clamp(16px, 1.6vw, 19px); line-height: 1.7; color: var(--mist); margin: 0; max-width: 640px; text-wrap: pretty;">Uma nova forma de viver o aprendizado médico na prática — com mais profundidade, direcionamento e experiência. Muito além da teoria: você treina de verdade, em cenários que colocam o raciocínio clínico à prova.</p>
       </div>
 
@@ -301,7 +322,7 @@
 
       <div class="reveal form-intro" style="flex: 1 1 360px; min-width: 0; max-width: 460px; display: flex; flex-direction: column; gap: 16px;">
         <div style="font-weight: 600; font-size: clamp(12px, 1.3vw, 14px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-300);">Inscrição</div>
-        <h2 style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(30px, 5vw, 52px); line-height: 1.05; letter-spacing: -0.02em; margin: 0; color: var(--paper);">Garanta sua vaga na live</h2>
+        <h2 class="char-split" style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(30px, 5vw, 52px); line-height: 1.05; letter-spacing: -0.02em; margin: 0; color: var(--paper);">Garanta sua vaga na live</h2>
         <p style="font-size: clamp(16px, 1.5vw, 18px); line-height: 1.65; color: var(--mist); margin: 0; text-wrap: pretty;">A inscrição é <strong style="color: var(--paper);">gratuita</strong>. Preencha os dados e você recebe o link de acesso, os materiais e os avisos da live diretamente no seu WhatsApp.</p>
         <div style="display: flex; align-items: center; gap: 10px; margin-top: 4px; color: var(--mist); font-size: 14px;">
           <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: var(--alert); animation: livePulse 1.8s ease-in-out infinite; flex: 0 0 auto;"></span>
@@ -310,7 +331,7 @@
       </div>
 
       <div class="reveal" style="flex: 1 1 380px; min-width: 0; max-width: 480px; display: flex;">
-        <form onSubmit="{{ onSubmit }}" style="background: rgba(8, 34, 39, 0.88); border: 1px solid rgba(238, 244, 245, 0.14); border-top: 2px solid var(--teal-500); border-radius: 14px; padding: clamp(24px, 4vw, 38px); display: flex; flex-direction: column; gap: 18px; width: 100%; align-self: center; backdrop-filter: blur(6px); box-shadow: var(--glow-teal-sm);">
+        <form data-form-card onSubmit="{{ onSubmit }}" style="background: rgba(8, 34, 39, 0.88); border: 1px solid rgba(238, 244, 245, 0.14); border-top: 2px solid var(--teal-500); border-radius: 14px; padding: clamp(24px, 4vw, 38px); display: flex; flex-direction: column; gap: 18px; width: 100%; align-self: center; backdrop-filter: blur(6px); box-shadow: var(--glow-teal-sm);">
           <label style="display: flex; flex-direction: column; gap: 8px;">
             <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">Nome completo</span>
             <input name="nome" type="text" required="{{ true }}" placeholder="Seu nome" autocomplete="name" style="background: var(--ink-950); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 8px; padding: 14px 16px; font-family: var(--font-body); font-size: 15px; color: var(--paper); outline: none; width: 100%; box-sizing: border-box; transition: border-color 220ms;" style-focus="border-color: var(--teal-400); box-shadow: 0 0 0 3px rgba(8, 179, 161, 0.18);">
@@ -333,7 +354,7 @@
   <!-- Footer -->
   <footer style="margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; padding: 26px 20px; background: rgba(3, 16, 15, 0.72); backdrop-filter: blur(10px); border-top: 1px solid rgba(238, 244, 245, 0.1);">
     <img src="assets/book-mark-teal.svg" alt="" style="height: 18px; width: auto;">
-    <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">Experiência Medsafe · Dia do Clínico · Live 23 de julho</span>
+    <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">Dia do Clínico · Live 23 de julho</span>
   </footer>
 </div>
 </x-dc>
@@ -343,24 +364,94 @@ class Component extends DCLogic {
     // Botão de play do vídeo do hero
     const heroVideo = document.querySelector('[data-hero-video]');
     const heroPlay = document.querySelector('[data-hero-play]');
-    if (heroVideo && heroPlay) {
-      heroPlay.addEventListener('click', () => heroVideo.play());
-      heroVideo.addEventListener('play', () => { heroPlay.style.display = 'none'; });
+    const heroBadge = document.querySelector('[data-hero-badge]');
+    if (heroVideo) {
+      if (heroPlay) heroPlay.addEventListener('click', () => heroVideo.play());
+      heroVideo.addEventListener('play', () => {
+        if (heroPlay) heroPlay.style.display = 'none';
+        // Balão do Dr. Brenno some ao iniciar o vídeo, liberando os controles nativos por baixo.
+        if (heroBadge) heroBadge.style.opacity = '0';
+      });
     }
 
-    // CTA no header aparece só depois de rolar
+    // CTAs "Quero participar" levam ao formulário com scroll suave (scroll-behavior: smooth no <html>)
+    // e um pulso de destaque no card assim que a rolagem chega lá.
+    const formCard = document.querySelector('[data-form-card]');
+    const ctaLinks = Array.prototype.slice.call(document.querySelectorAll('a.cta-btn[href="#inscricao"]'));
+    if (formCard && ctaLinks.length) {
+      const pulseForm = () => {
+        formCard.classList.remove('form-highlight');
+        void formCard.offsetWidth;
+        formCard.classList.add('form-highlight');
+      };
+      ctaLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          if ('onscrollend' in window) {
+            window.addEventListener('scrollend', pulseForm, { once: true });
+          } else {
+            setTimeout(pulseForm, 550);
+          }
+        });
+      });
+    }
+
+    // CTA no header: sempre visível no mobile (já na primeira dobra); no desktop, só depois de rolar
     const navCta = document.querySelector('[data-nav-cta]');
     const onScrollNav = () => {
       if (!navCta) return;
+      if (window.innerWidth < 768) { navCta.style.display = 'inline-flex'; return; }
       const scrolled = (window.scrollY || document.documentElement.scrollTop || 0) > 320;
-      navCta.style.display = (scrolled && window.innerWidth >= 768) ? 'inline-flex' : 'none';
+      navCta.style.display = scrolled ? 'inline-flex' : 'none';
     };
     window.addEventListener('scroll', onScrollNav, { passive: true });
     document.addEventListener('scroll', onScrollNav, { passive: true, capture: true });
+    window.addEventListener('resize', onScrollNav);
     onScrollNav();
 
-    // Reveal on scroll
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Títulos: quebra o texto em letras para a animação de entrada (preserva spans/cores internas, pula <br>)
+    if (!reduce) {
+      const splitChars = (node, counterRef) => {
+        Array.prototype.slice.call(node.childNodes).forEach((child) => {
+          if (child.nodeType === Node.TEXT_NODE) {
+            const frag = document.createDocumentFragment();
+            // Separa por espaços mantendo-os como tokens, e agrupa cada palavra num wrapper
+            // inline-block — assim a quebra de linha só acontece entre palavras, nunca dentro delas.
+            child.textContent.split(/( +)/).forEach((token) => {
+              if (token === '') return;
+              if (/^ +$/.test(token)) {
+                frag.appendChild(document.createTextNode(token));
+                return;
+              }
+              const wordSpan = document.createElement('span');
+              wordSpan.className = 'word';
+              Array.prototype.forEach.call(token, (ch) => {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = ch;
+                span.style.animationDelay = (counterRef.i * 22) + 'ms';
+                counterRef.i++;
+                wordSpan.appendChild(span);
+              });
+              frag.appendChild(wordSpan);
+            });
+            node.replaceChild(frag, child);
+          } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName !== 'BR') {
+            splitChars(child, counterRef);
+          }
+        });
+      };
+      document.querySelectorAll('.char-split').forEach((heading) => {
+        const counter = { i: 0 };
+        splitChars(heading, counter);
+        // Sublinhado (ex.: "raciocínio") só entra depois que a última letra do título terminar.
+        const underline = heading.querySelector('.sobre-under');
+        if (underline) underline.style.animationDelay = (counter.i * 22 + 620 + 100) + 'ms';
+      });
+    }
+
+    // Reveal on scroll
     const targets = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
     if (!targets.length || reduce) return;
     targets.forEach((t) => { t.style.opacity = '0'; t.style.translate = '0 28px'; });
@@ -373,7 +464,11 @@ class Component extends DCLogic {
         if (r.top < vh * 0.9 && r.bottom > 0) {
           revealed.push(t);
           const delay = Math.min(revealed.length, 4) * 70;
-          setTimeout(() => { t.style.opacity = '1'; t.style.translate = '0 0'; }, delay);
+          setTimeout(() => {
+            t.style.opacity = '1'; t.style.translate = '0 0';
+            const heading = t.querySelector('.char-split');
+            if (heading) heading.classList.add('in-view');
+          }, delay);
         }
       });
       if (revealed.length === targets.length) {
