@@ -34,7 +34,7 @@
     :root {
       --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
       --font-display: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
-      --font-mono: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Montserrat', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
       --font-heading: 'Bricolage Grotesque', 'IBM Plex Sans', sans-serif;
     }
     html, body { margin: 0; padding: 0; }
@@ -102,12 +102,31 @@
       .sobre-under { background-size: 100% 5px !important; }
     }
 
-    /* --- Hero responsivo (mobile-first) --- */
-    .hero-row { flex-direction: column; align-items: center; }
-    .hero-video { order: -1; }
-    .hero-text { align-items: center; text-align: center; }
-    .hero-info { justify-content: center; }
-    .form-intro { align-items: center; text-align: center; }
+    /* --- Hero + inscrição na primeira dobra (mobile-first) --- */
+    /* No mobile o formulário vem primeiro (primeira coisa que o usuário vê); o texto flui abaixo. */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(16px, 3.5vw, 22px);
+      align-items: start;
+      grid-template-areas:
+        "form"
+        "video"
+        "eyebrow"
+        "title"
+        "sub"
+        "info"
+        "trust";
+    }
+    .hero-eyebrow { grid-area: eyebrow; }
+    .hero-title   { grid-area: title; }
+    .hero-sub     { grid-area: sub; }
+    .hero-info    { grid-area: info; }
+    .hero-trust   { grid-area: trust; }
+    .hero-form    { grid-area: form; }
+    .hero-video   { grid-area: video; width: 100%; max-width: 340px; margin: clamp(4px, 2vw, 14px) auto 0; position: relative; }
+    /* Seção "O convite" existe só no desktop; no mobile o vídeo já aparece no hero (.hero-video). */
+    .convite-section { display: none; }
 
     /* --- Galeria da Experiência Medsafe --- */
     .exp-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(12px, 2vw, 20px); }
@@ -126,17 +145,29 @@
     .char-split.in-view .sobre-under { animation-play-state: running; }
     @keyframes underlineIn { to { background-size: 100% 5px; } }
     @media (min-width: 768px) {
-      .hero-row { flex-direction: row; align-items: center; }
-      .hero-row.lado-esq { flex-direction: row-reverse; }
-      .hero-video { order: 0; }
-      .hero-text { align-items: flex-start; text-align: left; }
-      .hero-info { justify-content: flex-start; }
-      .form-intro { align-items: flex-start; text-align: left; }
+      /* No desktop: texto à esquerda, formulário à direita — ambos na primeira dobra. */
+      .hero-grid {
+        grid-template-columns: 1.02fr 0.98fr;
+        column-gap: clamp(40px, 5vw, 72px);
+        row-gap: clamp(14px, 2vw, 20px);
+        align-items: start;
+        grid-template-areas:
+          "eyebrow form"
+          "title   form"
+          "sub     form"
+          "info    form"
+          "trust   form";
+      }
+      .hero-form { align-self: start; }
+      /* No desktop o vídeo sai do hero e aparece na seção "O convite" abaixo. */
+      .hero-video { display: none; }
+      .convite-section { display: block; }
       .exp-gallery { grid-template-columns: repeat(4, 1fr); }
       .sobre-grid { grid-template-columns: 5fr 6fr; gap: clamp(44px, 6vw, 96px); align-items: center; }
     }
     @media (max-width: 767px) {
-      .hero-info > div { border-right: none !important; padding-left: 12px !important; padding-right: 12px !important; align-items: center; text-align: center; }
+      .hero-info { justify-content: flex-start; }
+      .hero-info > div { border-right: none !important; padding-left: 0 !important; padding-right: 18px !important; }
       .nav-cta { padding: 9px 14px !important; font-size: 12px !important; gap: 6px !important; }
     }
     .deco-book {
@@ -173,24 +204,20 @@
     <a href="#inscricao" class="cta-btn nav-cta" style="display: none; align-items: center; gap: 8px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 13px; letter-spacing: 0.04em; border-radius: 8px; padding: 11px 20px; box-shadow: var(--glow-teal-sm); transition: background 220ms; flex: 0 0 auto;" style-hover="background: var(--brand-hover); color: var(--on-brand);" data-nav-cta>Quero participar</a>
   </header>
 
-  <!-- HERO -->
-  <section style="padding: clamp(36px, 6vw, 72px) clamp(20px, 5vw, 56px) clamp(40px, 6vw, 72px); max-width: 1160px; margin: 0 auto; width: 100%; box-sizing: border-box;">
-    <div class="hero-row {{ ladoClass }}" style="display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(32px, 5vw, 64px);">
+  <!-- HERO + INSCRIÇÃO (primeira dobra) -->
+  <section id="inscricao" style="padding: clamp(28px, 5vw, 60px) clamp(20px, 5vw, 56px) clamp(40px, 6vw, 72px); max-width: 1160px; margin: 0 auto; width: 100%; box-sizing: border-box; scroll-margin-top: 80px;">
+    <div class="hero-grid">
 
-      <!-- Coluna texto -->
-      <div class="hero-text" style="flex: 1 1 440px; min-width: 0; max-width: 620px; display: flex; flex-direction: column; gap: clamp(18px, 2.5vw, 26px); animation: riseIn 720ms var(--ease-out) 60ms both;">
+      <div class="hero-eyebrow" style="display: inline-flex; align-items: center; padding: 3px 0 3px 14px; border-left: 2px solid var(--teal-400); animation: riseIn 720ms var(--ease-out) 60ms both;">
+        <span style="font-family: var(--font-mono); font-weight: 400; font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--teal-200);">Live online · 23 de julho</span>
+      </div>
 
-        <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(8, 179, 161, 0.12); border: 1px solid var(--divider-teal); border-radius: var(--radius-pill, 999px); padding: 8px 16px;">
-          <span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: var(--alert); animation: livePulse 1.8s ease-in-out infinite;"></span>
-          <span style="font-weight: 600; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-200);">Live online · 23 de julho</span>
-        </div>
+        <h1 class="char-split in-view hero-title" style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(34px, 5.2vw, 60px); line-height: 1.05; letter-spacing: -0.03em; margin: 0; color: var(--paper);">Anos de estudo, mastigados pro seu <span style="color: var(--teal-300);">plantão</span></h1>
 
-        <h1 class="char-split in-view" style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(40px, 6.5vw, 72px); line-height: 1.05; letter-spacing: -0.03em; margin: 0; color: var(--paper);">Anos de estudo, mastigados pro seu <span style="color: var(--teal-300);">plantão</span></h1>
-
-        <p style="font-size: clamp(17px, 2vw, 21px); line-height: 1.6; color: var(--mist); max-width: 540px; margin: 0; text-wrap: pretty;">Um aulão completo de Clínica Médica, ao vivo: tudo o que absorvemos nesses anos de educação médica, consolidado e mastigado pra você aplicar direto no plantão e na rotina prática.</p>
+        <p class="hero-sub" style="font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6; color: var(--mist); max-width: 540px; margin: 0; text-wrap: pretty;">Um aulão completo de Clínica Médica, ao vivo: tudo o que absorvemos nesses anos, consolidado e mastigado pra você aplicar direto no plantão.</p>
 
         <!-- Info do evento -->
-        <div class="hero-info" style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px;">
+        <div class="hero-info" style="display: flex; flex-wrap: wrap; gap: 14px; animation: riseIn 720ms var(--ease-out) 240ms both;">
           <div style="display: flex; flex-direction: column; gap: 3px; padding: 12px 18px 12px 0; border-right: 1px solid rgba(238, 244, 245, 0.14);">
             <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate);">Data</span>
             <span style="font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--paper);">23 de julho</span>
@@ -205,11 +232,38 @@
           </div>
         </div>
 
-        <a href="#inscricao" class="cta-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 14px; letter-spacing: 0.04em; border-radius: 8px; padding: 14px 26px; box-shadow: var(--glow-teal-sm); transition: background 220ms, box-shadow 220ms; min-height: 48px; margin-top: 4px;" style-hover="background: var(--brand-hover); color: var(--on-brand); box-shadow: var(--glow-teal-md);" style-active="background: var(--brand-press);">Quero participar <span class="cta-arrow">→</span></a>
+        <div class="hero-trust" style="display: flex; align-items: center; gap: 10px; color: var(--mist); font-size: 14px; animation: riseIn 720ms var(--ease-out) 300ms both;">
+          <img src="assets/book-mark-teal.svg" alt="" style="height: 15px; width: auto; flex: 0 0 auto;">
+          <span>Vagas confirmadas por ordem de inscrição — participação <strong style="color: var(--paper);">gratuita</strong>.</span>
+        </div>
+
+      <!-- Formulário: cartão de inscrição, na primeira dobra -->
+      <div class="hero-form" style="animation: riseIn 760ms var(--ease-out) 200ms both;">
+        <form data-form-card onSubmit="{{ onSubmit }}" style="background: rgba(8, 34, 39, 0.92); border: 1px solid rgba(238, 244, 245, 0.14); border-top: 2px solid var(--teal-500); border-radius: 14px; padding: clamp(22px, 3.2vw, 34px); display: flex; flex-direction: column; gap: 15px; width: 100%; box-sizing: border-box; backdrop-filter: blur(6px); box-shadow: var(--glow-teal-md);">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-family: var(--font-mono); font-weight: 700; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal-300);">Inscrição gratuita</span>
+            <span style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(22px, 3vw, 28px); line-height: 1.1; letter-spacing: -0.02em; color: var(--paper);">Garanta sua vaga na live</span>
+            <span style="font-size: 14px; line-height: 1.5; color: var(--mist);">Você recebe o link, os materiais e os avisos direto no seu WhatsApp.</span>
+          </div>
+          <label style="display: flex; flex-direction: column; gap: 7px;">
+            <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">Nome completo</span>
+            <input name="nome" type="text" required="{{ true }}" placeholder="Seu nome" autocomplete="name" style="background: var(--ink-950); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 8px; padding: 13px 16px; font-family: var(--font-body); font-size: 15px; color: var(--paper); outline: none; width: 100%; box-sizing: border-box; transition: border-color 220ms;" style-focus="border-color: var(--teal-400); box-shadow: 0 0 0 3px rgba(8, 179, 161, 0.18);">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 7px;">
+            <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">E-mail</span>
+            <input name="email" type="email" required="{{ true }}" placeholder="voce@email.com" autocomplete="email" style="background: var(--ink-950); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 8px; padding: 13px 16px; font-family: var(--font-body); font-size: 15px; color: var(--paper); outline: none; width: 100%; box-sizing: border-box; transition: border-color 220ms;" style-focus="border-color: var(--teal-400); box-shadow: 0 0 0 3px rgba(8, 179, 161, 0.18);">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 7px;">
+            <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">WhatsApp</span>
+            <input name="whatsapp" type="tel" required="{{ true }}" placeholder="(11) 99999-9999" autocomplete="tel" style="background: var(--ink-950); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 8px; padding: 13px 16px; font-family: var(--font-body); font-size: 15px; color: var(--paper); outline: none; width: 100%; box-sizing: border-box; transition: border-color 220ms;" style-focus="border-color: var(--teal-400); box-shadow: 0 0 0 3px rgba(8, 179, 161, 0.18);">
+          </label>
+          <button type="submit" class="cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; border: none; border-radius: 8px; padding: 16px 24px; cursor: pointer; box-shadow: var(--glow-teal-sm); transition: background 220ms, box-shadow 220ms; min-height: 54px; margin-top: 2px;" style-hover="background: var(--brand-hover); box-shadow: var(--glow-teal-md);" style-active="background: var(--brand-press);">Garantir minha vaga <span class="cta-arrow">→</span></button>
+          <div style="font-size: 12px; line-height: 1.5; color: var(--slate); text-align: center;">Seus dados são usados apenas para os avisos da live.</div>
+        </form>
       </div>
 
-      <!-- Coluna vídeo 9:16 -->
-      <div class="hero-video" style="flex: 0 1 340px; min-width: 0; width: 100%; max-width: 360px; margin: 0 auto; position: relative; animation: riseIn 760ms var(--ease-out) 240ms both;">
+      <!-- Vídeo convite do Dr. Brenno (logo após o formulário) — só no mobile -->
+      <div class="hero-video" data-video-wrap style="animation: riseIn 760ms var(--ease-out) 260ms both;">
         <sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
           <video data-hero-video src="{{ videoSrc }}" controls="{{ true }}" playsinline="{{ true }}" poster="assets/dia-do-clinico-cover.png" style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: var(--ink-950); box-shadow: var(--glow-teal-md); object-fit: cover; display: block;"></video>
           <button type="button" data-hero-play aria-label="Reproduzir vídeo" style="position: absolute; inset: 0; margin: auto; width: 82px; height: 82px; padding: 0; border: 1.5px solid var(--divider-teal); border-radius: 50%; background: rgba(8, 179, 161, 0.14); display: flex; align-items: center; justify-content: center; animation: pulseGlow 3s var(--ease-standard) infinite; cursor: pointer; backdrop-filter: blur(2px);">
@@ -219,8 +273,7 @@
         <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
           <div style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: radial-gradient(65% 45% at 50% 30%, rgba(8, 179, 161, 0.2) 0%, rgba(8, 179, 161, 0) 72%), var(--ink-950); box-shadow: var(--glow-teal-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; position: relative; overflow: hidden;">
             <div style="position: absolute; top: 16px; left: 16px; display: inline-flex; align-items: center; gap: 8px; background: rgba(3, 16, 15, 0.6); border: 1px solid var(--divider-teal); border-radius: 999px; padding: 6px 12px;">
-              <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: var(--alert); animation: livePulse 1.8s ease-in-out infinite;"></span>
-              <span style="font-weight: 600; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper);">Convite</span>
+              <span style="font-family: var(--font-mono); font-weight: 400; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper);">Convite</span>
             </div>
             <div style="width: 82px; height: 82px; border-radius: 50%; border: 1.5px solid var(--divider-teal); background: rgba(8, 179, 161, 0.14); display: flex; align-items: center; justify-content: center; animation: pulseGlow 3s var(--ease-standard) infinite;">
               <div style="width: 0; height: 0; border-left: 24px solid var(--teal-300); border-top: 14px solid transparent; border-bottom: 14px solid transparent; margin-left: 7px;"></div>
@@ -229,14 +282,45 @@
             <div style="position: absolute; bottom: 16px; font-weight: 600; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate);">Vídeo · 9:16</div>
           </div>
         </sc-if>
+      </div>
+    </div>
+  </section>
 
-        <!-- Área complementar: foto do Dr. Brenno. pointer-events: none evita bloquear os controles nativos do vídeo por baixo; some com fade ao dar play (ver componentDidMount) -->
-        <div data-hero-badge style="position: absolute; left: -14px; bottom: -18px; display: flex; align-items: center; gap: 12px; background: rgba(8, 34, 39, 0.92); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 999px; padding: 8px 18px 8px 8px; box-shadow: var(--glow-teal-sm); backdrop-filter: blur(6px); pointer-events: none; transition: opacity 320ms var(--ease-out);">
-          <img src="assets/dr-brenno.png" alt="Dr. Brenno" style="width: 52px; height: 52px; flex: 0 0 auto; border-radius: 50%; object-fit: cover; object-position: center 22%; box-shadow: 0 0 0 2px rgba(3, 16, 15, 0.6);">
-          <div style="display: flex; flex-direction: column; gap: 1px;">
-            <span style="font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--paper); line-height: 1.1;">Dr. Brenno</span>
-            <span style="font-weight: 600; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-300);">Apresentador</span>
+  <!-- O CONVITE (vídeo) — apenas no desktop; mesma proporção/alinhamento e tamanhos da seção "Sobre a live" -->
+  <section class="convite-section" style="position: relative; overflow: hidden; padding: clamp(56px, 8vw, 104px) clamp(20px, 5vw, 56px); border-top: 1px solid rgba(238, 244, 245, 0.08);">
+    <div class="sobre-grid" style="max-width: 1120px; margin: 0 auto; position: relative;">
+
+      <!-- Lado do texto -->
+      <div class="reveal" style="display: flex; flex-direction: column; gap: 22px;">
+        <div style="display: inline-flex; align-items: center; gap: 12px;">
+          <span aria-hidden="true" style="width: 30px; height: 2px; background: var(--teal-400);"></span>
+          <span style="font-family: var(--font-mono); font-weight: 600; font-size: clamp(12px, 1.3vw, 14px); letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-300);">O convite</span>
+        </div>
+        <h2 class="char-split" style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(38px, 6vw, 66px); line-height: 1.0; letter-spacing: -0.035em; margin: 0; color: var(--paper);">Dr. Brenno te chama <span style="color: var(--teal-300);">pra live</span></h2>
+        <p style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.65; color: var(--paper-dim); margin: 0; text-wrap: pretty;">Dá o play e veja em um minuto o que te espera no Dia do Clínico.</p>
+      </div>
+
+      <!-- Lado do vídeo 9:16 -->
+      <div class="reveal" style="display: flex; justify-content: center;">
+        <div data-video-wrap style="width: 100%; max-width: 340px; position: relative;">
+        <sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
+          <video data-hero-video src="{{ videoSrc }}" controls="{{ true }}" playsinline="{{ true }}" poster="assets/dia-do-clinico-cover.png" style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: var(--ink-950); box-shadow: var(--glow-teal-md); object-fit: cover; display: block;"></video>
+          <button type="button" data-hero-play aria-label="Reproduzir vídeo" style="position: absolute; inset: 0; margin: auto; width: 82px; height: 82px; padding: 0; border: 1.5px solid var(--divider-teal); border-radius: 50%; background: rgba(8, 179, 161, 0.14); display: flex; align-items: center; justify-content: center; animation: pulseGlow 3s var(--ease-standard) infinite; cursor: pointer; backdrop-filter: blur(2px);">
+            <span aria-hidden="true" style="width: 0; height: 0; border-left: 24px solid var(--teal-300); border-top: 14px solid transparent; border-bottom: 14px solid transparent; margin-left: 7px;"></span>
+          </button>
+        </sc-if>
+        <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
+          <div style="width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid rgba(238, 244, 245, 0.14); background: radial-gradient(65% 45% at 50% 30%, rgba(8, 179, 161, 0.2) 0%, rgba(8, 179, 161, 0) 72%), var(--ink-950); box-shadow: var(--glow-teal-md); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 16px; left: 16px; display: inline-flex; align-items: center; gap: 8px; background: rgba(3, 16, 15, 0.6); border: 1px solid var(--divider-teal); border-radius: 999px; padding: 6px 12px;">
+              <span style="font-family: var(--font-mono); font-weight: 400; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper);">Convite</span>
+            </div>
+            <div style="width: 82px; height: 82px; border-radius: 50%; border: 1.5px solid var(--divider-teal); background: rgba(8, 179, 161, 0.14); display: flex; align-items: center; justify-content: center; animation: pulseGlow 3s var(--ease-standard) infinite;">
+              <div style="width: 0; height: 0; border-left: 24px solid var(--teal-300); border-top: 14px solid transparent; border-bottom: 14px solid transparent; margin-left: 7px;"></div>
+            </div>
+            <div style="font-weight: 600; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-align: center; line-height: 1.8;">Dr. Brenno convida<br>você para a live</div>
+            <div style="position: absolute; bottom: 16px; font-weight: 600; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate);">Vídeo · 9:16</div>
           </div>
+        </sc-if>
         </div>
       </div>
     </div>
@@ -252,7 +336,7 @@
       <div class="reveal" style="display: flex; flex-direction: column; gap: 22px;">
         <div style="display: inline-flex; align-items: center; gap: 12px;">
           <span aria-hidden="true" style="width: 30px; height: 2px; background: var(--teal-400);"></span>
-          <span style="font-weight: 600; font-size: clamp(12px, 1.3vw, 14px); letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-300);">Sobre a live</span>
+          <span style="font-family: var(--font-mono); font-weight: 600; font-size: clamp(12px, 1.3vw, 14px); letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-300);">Sobre a live</span>
         </div>
         <h2 class="char-split" style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(38px, 6vw, 66px); line-height: 1.0; letter-spacing: -0.035em; margin: 0; color: var(--paper);">Menos decoreba.<br>Mais <span class="sobre-under" style="color: var(--teal-300);">raciocínio</span> clínico.</h2>
       </div>
@@ -261,10 +345,6 @@
       <div class="reveal" style="display: flex; flex-direction: column; gap: 26px;">
         <p style="font-size: clamp(17px, 1.7vw, 20px); line-height: 1.65; color: var(--paper-dim); margin: 0; text-wrap: pretty;">No <strong style="color: var(--paper); font-weight: 600;">Dia do Clínico</strong>, anos de aprendizado viram conversa: o que fazer, por que fazer e como decidir quando o paciente está na sua frente, no plantão.</p>
         <p style="font-size: clamp(15px, 1.5vw, 17px); line-height: 1.7; color: var(--mist); margin: 0; text-wrap: pretty;">Clínica Médica de verdade — a que você usa no plantão, no internato e no corredor do hospital, sem enrolação.</p>
-        <div style="display: inline-flex; align-items: center; gap: 12px; align-self: flex-start; max-width: 100%; padding: 13px 20px; border: 1px solid var(--divider-teal); border-radius: 10px; background: rgba(3, 16, 15, 0.5); box-shadow: var(--glow-teal-sm);">
-          <span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: var(--alert); animation: livePulse 1.8s ease-in-out infinite; flex: 0 0 auto;"></span>
-          <span style="font-weight: 600; font-size: clamp(10px, 1.2vw, 12px); letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper);">Ao vivo · Clínica Médica · Conteúdo pra prática</span>
-        </div>
       </div>
     </div>
   </section>
@@ -278,9 +358,11 @@
 
       <!-- Cabeçalho -->
       <div class="reveal" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; max-width: 760px; margin: 0 auto;">
-        <div style="display: inline-flex; align-items: center; gap: 9px; background: rgba(3, 16, 15, 0.55); border: 1px solid var(--divider-teal); border-radius: 999px; padding: 8px 16px;">
-          <img src="assets/book-mark-teal.svg" alt="" style="height: 15px; width: auto;">
-          <span style="font-weight: 600; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-200);">Lançamento oficial</span>
+        <div style="display: inline-flex; align-items: center; gap: 10px;">
+          <span aria-hidden="true" style="width: 22px; height: 1px; background: var(--teal-400); flex: 0 0 auto;"></span>
+          <img src="assets/book-mark-teal.svg" alt="" style="height: 14px; width: auto; flex: 0 0 auto;">
+          <span style="font-family: var(--font-mono); font-weight: 700; font-size: 13px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--teal-200);">Lançamento oficial</span>
+          <span aria-hidden="true" style="width: 22px; height: 1px; background: var(--teal-400); flex: 0 0 auto;"></span>
         </div>
         <img src="assets/logo-horizontal-negative.svg" alt="Experiência Medsafe" style="height: clamp(48px, 7vw, 70px); width: auto; max-width: 100%; filter: drop-shadow(0 0 26px rgba(8, 179, 161, 0.32)); margin: 6px 0;">
         <h2 class="char-split" style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(28px, 4.6vw, 48px); line-height: 1.08; letter-spacing: -0.02em; margin: 0; color: var(--paper); max-width: 760px; text-wrap: balance;">Você vai conhecer de perto, <span style="color: var(--teal-300);">durante a live</span>.</h2>
@@ -316,63 +398,34 @@
     </div>
   </section>
 
-  <!-- FORMULÁRIO -->
-  <section id="inscricao" style="padding: clamp(48px, 7vw, 96px) clamp(20px, 5vw, 56px); border-top: 1px solid rgba(238, 244, 245, 0.08); scroll-margin-top: 90px;">
-    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(32px, 5vw, 64px); max-width: 1000px; margin: 0 auto;">
-
-      <div class="reveal form-intro" style="flex: 1 1 360px; min-width: 0; max-width: 460px; display: flex; flex-direction: column; gap: 16px;">
-        <div style="font-weight: 600; font-size: clamp(12px, 1.3vw, 14px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-300);">Inscrição</div>
-        <h2 class="char-split" style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(30px, 5vw, 52px); line-height: 1.05; letter-spacing: -0.02em; margin: 0; color: var(--paper);">Garanta sua vaga na live</h2>
-        <p style="font-size: clamp(16px, 1.5vw, 18px); line-height: 1.65; color: var(--mist); margin: 0; text-wrap: pretty;">A inscrição é <strong style="color: var(--paper);">gratuita</strong>. Preencha os dados e você recebe o link de acesso, os materiais e os avisos da live diretamente no seu WhatsApp.</p>
-        <div style="display: flex; align-items: center; gap: 10px; margin-top: 4px; color: var(--mist); font-size: 14px;">
-          <span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: var(--alert); animation: livePulse 1.8s ease-in-out infinite; flex: 0 0 auto;"></span>
-          <span>Vagas confirmadas por ordem de inscrição.</span>
-        </div>
-      </div>
-
-      <div class="reveal" style="flex: 1 1 380px; min-width: 0; max-width: 480px; display: flex;">
-        <form data-form-card onSubmit="{{ onSubmit }}" style="background: rgba(8, 34, 39, 0.88); border: 1px solid rgba(238, 244, 245, 0.14); border-top: 2px solid var(--teal-500); border-radius: 14px; padding: clamp(24px, 4vw, 38px); display: flex; flex-direction: column; gap: 18px; width: 100%; align-self: center; backdrop-filter: blur(6px); box-shadow: var(--glow-teal-sm);">
-          <label style="display: flex; flex-direction: column; gap: 8px;">
-            <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">Nome completo</span>
-            <input name="nome" type="text" required="{{ true }}" placeholder="Seu nome" autocomplete="name" style="background: var(--ink-950); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 8px; padding: 14px 16px; font-family: var(--font-body); font-size: 15px; color: var(--paper); outline: none; width: 100%; box-sizing: border-box; transition: border-color 220ms;" style-focus="border-color: var(--teal-400); box-shadow: 0 0 0 3px rgba(8, 179, 161, 0.18);">
-          </label>
-          <label style="display: flex; flex-direction: column; gap: 8px;">
-            <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">E-mail</span>
-            <input name="email" type="email" required="{{ true }}" placeholder="voce@email.com" autocomplete="email" style="background: var(--ink-950); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 8px; padding: 14px 16px; font-family: var(--font-body); font-size: 15px; color: var(--paper); outline: none; width: 100%; box-sizing: border-box; transition: border-color 220ms;" style-focus="border-color: var(--teal-400); box-shadow: 0 0 0 3px rgba(8, 179, 161, 0.18);">
-          </label>
-          <label style="display: flex; flex-direction: column; gap: 8px;">
-            <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">WhatsApp</span>
-            <input name="whatsapp" type="tel" required="{{ true }}" placeholder="(11) 99999-9999" autocomplete="tel" style="background: var(--ink-950); border: 1px solid rgba(238, 244, 245, 0.14); border-radius: 8px; padding: 14px 16px; font-family: var(--font-body); font-size: 15px; color: var(--paper); outline: none; width: 100%; box-sizing: border-box; transition: border-color 220ms;" style-focus="border-color: var(--teal-400); box-shadow: 0 0 0 3px rgba(8, 179, 161, 0.18);">
-          </label>
-          <button type="submit" class="cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; border: none; border-radius: 8px; padding: 18px 24px; cursor: pointer; box-shadow: var(--glow-teal-sm); transition: background 220ms, box-shadow 220ms; min-height: 54px; margin-top: 4px;" style-hover="background: var(--brand-hover); box-shadow: var(--glow-teal-md);" style-active="background: var(--brand-press);">Garantir minha vaga <span class="cta-arrow">→</span></button>
-          <div style="font-size: 12px; line-height: 1.6; color: var(--slate); text-align: center;">Inscrição gratuita. Seus dados são usados apenas para os avisos da live.</div>
-        </form>
-      </div>
+  <!-- CTA de fechamento (leva de volta ao formulário do topo) -->
+  <section style="padding: clamp(48px, 7vw, 88px) clamp(20px, 5vw, 56px); border-top: 1px solid rgba(238, 244, 245, 0.08);">
+    <div class="reveal" style="max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px;">
+      <h2 class="char-split" style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(28px, 4.6vw, 46px); line-height: 1.08; letter-spacing: -0.02em; margin: 0; color: var(--paper);">Sua vaga na live<br>ainda está aberta</h2>
+      <p style="font-size: clamp(16px, 1.6vw, 19px); line-height: 1.6; color: var(--mist); margin: 0; text-wrap: pretty;">A inscrição é gratuita e leva menos de um minuto. Garanta a sua e receba tudo no WhatsApp.</p>
+      <a href="#inscricao" class="cta-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; border-radius: 8px; padding: 16px 30px; box-shadow: var(--glow-teal-sm); transition: background 220ms, box-shadow 220ms; min-height: 54px;" style-hover="background: var(--brand-hover); color: var(--on-brand); box-shadow: var(--glow-teal-md);" style-active="background: var(--brand-press);">Quero participar <span class="cta-arrow">→</span></a>
     </div>
   </section>
 
   <!-- Footer -->
   <footer style="margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; padding: 26px 20px; background: rgba(3, 16, 15, 0.72); backdrop-filter: blur(10px); border-top: 1px solid rgba(238, 244, 245, 0.1);">
     <img src="assets/book-mark-teal.svg" alt="" style="height: 18px; width: auto;">
-    <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">Dia do Clínico · Live 23 de julho</span>
+    <span style="font-family: var(--font-mono); font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">Dia do Clínico · Live 23 de julho</span>
   </footer>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1160,&quot;height&quot;:900},&quot;videoSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;assets/dia-do-clinico.mp4&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Vídeo&quot;,&quot;label&quot;:&quot;URL do vídeo convite (9:16)&quot;},&quot;videoLado&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;direita&quot;,&quot;options&quot;:[&quot;esquerda&quot;,&quot;direita&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;,&quot;label&quot;:&quot;Lado do vídeo no hero&quot;}}">
 class Component extends DCLogic {
   componentDidMount() {
-    // Botão de play do vídeo do hero
-    const heroVideo = document.querySelector('[data-hero-video]');
-    const heroPlay = document.querySelector('[data-hero-play]');
-    const heroBadge = document.querySelector('[data-hero-badge]');
-    if (heroVideo) {
-      if (heroPlay) heroPlay.addEventListener('click', () => heroVideo.play());
-      heroVideo.addEventListener('play', () => {
-        if (heroPlay) heroPlay.style.display = 'none';
-        // Balão do Dr. Brenno some ao iniciar o vídeo, liberando os controles nativos por baixo.
-        if (heroBadge) heroBadge.style.opacity = '0';
-      });
-    }
+    // Botão de play dos vídeos convite (um no hero p/ mobile, outro na seção "O convite" p/ desktop).
+    // Cada par vídeo/botão é ligado dentro do seu próprio wrapper [data-video-wrap].
+    Array.prototype.slice.call(document.querySelectorAll('[data-video-wrap]')).forEach((wrap) => {
+      const video = wrap.querySelector('[data-hero-video]');
+      const play = wrap.querySelector('[data-hero-play]');
+      if (!video) return;
+      if (play) play.addEventListener('click', () => video.play());
+      video.addEventListener('play', () => { if (play) play.style.display = 'none'; });
+    });
 
     // CTAs "Quero participar" levam ao formulário com scroll suave (scroll-behavior: smooth no <html>)
     // e um pulso de destaque no card assim que a rolagem chega lá.
@@ -498,10 +551,34 @@ class Component extends DCLogic {
       ladoClass: lado === 'esquerda' ? 'lado-esq' : 'lado-dir',
       onSubmit: (e) => {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(e.target).entries());
-        // PONTO DE INTEGRAÇÃO: envie `data` para seu CRM/ferramenta aqui.
+        const form = e.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
         try { localStorage.setItem('medsafe_lead', JSON.stringify(data)); } catch (_) {}
-        window.location.href = 'Obrigado.dc.html';
+
+        // Envia a inscrição para o Formspree e, ao concluir, leva para a página de Obrigado.
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.7'; submitBtn.textContent = 'Enviando...'; }
+        const restore = () => { if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; submitBtn.innerHTML = originalHTML; } };
+
+        fetch('https://formspree.io/f/xbdverkn', {
+          method: 'POST',
+          body: formData,
+          headers: { Accept: 'application/json' },
+        })
+          .then((res) => {
+            if (res.ok) { window.location.href = 'Obrigado.dc.html'; return; }
+            return res.json().then((body) => {
+              const msg = (body && body.errors && body.errors.map((x) => x.message).join(' ')) || 'Não foi possível enviar sua inscrição. Tente novamente.';
+              alert(msg);
+              restore();
+            });
+          })
+          .catch(() => {
+            alert('Não foi possível enviar sua inscrição. Verifique sua conexão e tente novamente.');
+            restore();
+          });
       },
     };
   }
