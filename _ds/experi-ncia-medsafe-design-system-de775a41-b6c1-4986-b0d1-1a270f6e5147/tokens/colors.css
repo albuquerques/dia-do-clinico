@@ -1,0 +1,71 @@
+/* ============================================================
+   Experiência Medsafe — Color tokens
+   Palette derived from the brand aurora artwork (deep teal-black
+   ground + vivid emerald-teal glow) and the "bookwhite" grid.
+   ============================================================ */
+
+:root {
+  /* --- Emerald teal (primary brand color) ------------------ */
+  --teal-200: #9EEBE0;
+  --teal-300: #4FD8C8;
+  --teal-400: #1FC5B2;
+  --teal-500: #08B3A1; /* core brand teal, sampled from the aurora */
+  --teal-600: #069384;
+  --teal-700: #067367;
+  --teal-800: #06534B;
+
+  /* --- Deep teal-black (grounds & surfaces) ---------------- */
+  --ink-950: #03100F;
+  --ink-900: #05191B; /* primary dark background */
+  --ink-800: #082227; /* raised dark surface / cards on dark */
+  --ink-700: #0C2E33;
+  --ink-600: #16403F;
+
+  /* --- Bookwhite & neutrals -------------------------------- */
+  --paper:     #EEF4F5; /* "bookwhite" — light background & type on dark */
+  --paper-dim: #DCE6E7;
+  --mist:      #B7C6C8; /* muted text on dark */
+  --slate:     #6E8285; /* secondary / captions */
+  --graphite:  #2A3A3C; /* body text on light */
+
+  /* --- Support / semantic ---------------------------------- */
+  --alert:   #E4572E; /* urgency accent — clinical/emergency red-orange */
+  --warning: #F2A541;
+  --success: var(--teal-500);
+  --info:    #3E9AA6;
+
+  /* ============================================================
+     Semantic aliases — reach for these in product work
+     ============================================================ */
+
+  /* Backgrounds */
+  --bg-base:        var(--ink-900);
+  --bg-raised:      var(--ink-800);
+  --bg-inset:       var(--ink-950);
+  --bg-light:       var(--paper);
+  --bg-light-dim:   var(--paper-dim);
+
+  /* Text on dark ground */
+  --text-strong:    var(--paper);
+  --text-body:      var(--mist);
+  --text-muted:     var(--slate);
+  --text-accent:    var(--teal-400);
+
+  /* Text on light ground */
+  --text-on-light:        var(--graphite);
+  --text-on-light-muted:  var(--slate);
+
+  /* Interactive */
+  --brand:            var(--teal-500);
+  --brand-hover:      var(--teal-400);
+  --brand-press:      var(--teal-600);
+  --on-brand:         var(--ink-950);
+
+  /* Lines & edges */
+  --border-on-dark:   rgba(238, 244, 245, 0.14);
+  --border-on-light:  rgba(4, 22, 26, 0.12);
+  --divider-teal:     rgba(8, 179, 161, 0.35);
+
+  /* Focus */
+  --focus-ring: var(--teal-300);
+}

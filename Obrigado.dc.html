@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/experi-ncia-medsafe-design-system-de775a41-b6c1-4986-b0d1-1a270f6e5147/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/experi-ncia-medsafe-design-system-de775a41-b6c1-4986-b0d1-1a270f6e5147/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/experi-ncia-medsafe-design-system-de775a41-b6c1-4986-b0d1-1a270f6e5147/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/experi-ncia-medsafe-design-system-de775a41-b6c1-4986-b0d1-1a270f6e5147/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/experi-ncia-medsafe-design-system-de775a41-b6c1-4986-b0d1-1a270f6e5147/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/experi-ncia-medsafe-design-system-de775a41-b6c1-4986-b0d1-1a270f6e5147/styles.css">
+  <script src="_ds/experi-ncia-medsafe-design-system-de775a41-b6c1-4986-b0d1-1a270f6e5147/_ds_bundle.js"></script>
+  <style>
+    @font-face {
+      font-family: 'IBM Plex Sans';
+      src: url('assets/fonts/IBMPlexSans.ttf') format('truetype');
+      font-weight: 100 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'IBM Plex Sans';
+      src: url('assets/fonts/IBMPlexSans-Italic.ttf') format('truetype');
+      font-weight: 100 700; font-style: italic; font-display: swap;
+    }
+    @font-face { font-family: 'Bricolage Grotesque'; src: url('assets/fonts/BricolageGrotesque.ttf') format('truetype'); font-weight: 200 800; font-style: normal; font-display: swap; }
+    :root {
+      --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      --font-display: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+      --font-heading: 'Bricolage Grotesque', 'IBM Plex Sans', sans-serif;
+    }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background-color: #041215;
+      background-image: url('assets/bg-mobile.png');
+      background-size: cover; background-position: center;
+      background-attachment: fixed; background-repeat: no-repeat;
+    }
+    @media (min-width: 768px) { body { background-image: url('assets/bg-desktop.png'); } }
+    a { color: var(--teal-300); text-decoration: none; }
+    a:hover { color: var(--teal-200); }
+    @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 24px rgba(8, 179, 161, 0.35); }
+      50% { box-shadow: 0 0 60px rgba(8, 179, 161, 0.55); }
+    }
+    @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
+    @keyframes ringRipple { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(2.2); opacity: 0; } }
+    @keyframes drawCheck { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+    @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 62% { transform: scale(1.18); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+    .deco-book {
+      position: absolute; pointer-events: none; background: var(--paper);
+      -webkit-mask: url('assets/book-symbol.svg') center / contain no-repeat;
+      mask: url('assets/book-symbol.svg') center / contain no-repeat;
+      aspect-ratio: 1 / 1;
+    }
+    .deco-cluster {
+      position: absolute; pointer-events: none;
+      background: url('assets/grid-book.svg') center / contain no-repeat;
+      aspect-ratio: 165 / 181;
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+    @media (max-width: 767px) { .deco-mobile-hide { display: none !important; } }
+  </style>
+</helmet>
+
+<div data-screen-label="Obrigado" style="min-height: 100vh; background: transparent; font-family: var(--font-body); color: var(--paper); display: flex; flex-direction: column; isolation: isolate; position: relative;">
+
+  <div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1;">
+    <div class="deco-book" style="top: 9%; left: -120px; width: 420px; opacity: 0.05; animation: floatY 13s ease-in-out infinite;"></div>
+    <div class="deco-cluster deco-mobile-hide" style="top: 13%; right: 9%; width: 142px; opacity: 0.08; animation: floatY 10s ease-in-out -2s infinite;"></div>
+    <div class="deco-cluster deco-mobile-hide" style="top: 66%; left: 6%; width: 150px; opacity: 0.07; animation: floatY 11s ease-in-out -4s infinite;"></div>
+    <div class="deco-book" style="top: 56%; right: -110px; width: 380px; opacity: 0.05; animation: floatY 15s ease-in-out -1s infinite;"></div>
+  </div>
+
+  <!-- Header -->
+  <header style="display: flex; align-items: center; justify-content: center; gap: 16px; padding: 18px; background: rgba(3, 16, 15, 0.72); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(238, 244, 245, 0.1);">
+    <img src="assets/logo-medsafe.svg" alt="Medsafe" style="height: 30px; width: auto;">
+    <span aria-hidden="true" style="width: 1px; height: 26px; background: rgba(238, 244, 245, 0.18);"></span>
+    <span style="font-family: var(--font-heading); font-weight: 700; font-size: clamp(15px, 2vw, 18px); letter-spacing: -0.01em; color: var(--paper);">Dia do <span style="color: var(--teal-300);">Clínico</span></span>
+  </header>
+
+  <!-- Confirmation -->
+  <main style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 22px; padding: clamp(48px, 8vw, 96px) 24px; max-width: 640px; margin: 0 auto;">
+
+    <div style="position: relative; width: 104px; height: 104px; border-radius: 50%; border: 1.5px solid var(--divider-teal); background: rgba(8, 179, 161, 0.12); display: flex; align-items: center; justify-content: center; animation: pulseGlow 3s var(--ease-standard) infinite;">
+      <span aria-hidden="true" style="position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--teal-400); animation: ringRipple 2.8s var(--ease-out) infinite;"></span>
+      <span aria-hidden="true" style="position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--teal-400); animation: ringRipple 2.8s var(--ease-out) 1.4s infinite;"></span>
+      <span style="position: relative; width: 46px; height: 46px; color: var(--teal-300); display: flex; align-items: center; justify-content: center; animation: popIn 520ms var(--ease-out) 200ms both;">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="10.5" stroke="currentColor" stroke-width="1.4" opacity="0.5"></circle>
+          <path d="M6.5 12.4 L10.3 16.2 L17.6 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray: 30; animation: drawCheck 460ms var(--ease-out) 620ms both;"></path>
+        </svg>
+      </span>
+    </div>
+
+    <div style="font-weight: 600; font-size: clamp(12px, 1.3vw, 14px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-300); animation: riseIn 620ms var(--ease-out) 340ms both;">Live · Dia do Clínico · 23 de julho</div>
+
+    <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: clamp(34px, 6vw, 58px); line-height: 1.05; letter-spacing: -0.02em; margin: 0; color: var(--paper); animation: riseIn 640ms var(--ease-out) 440ms both;">Inscrição confirmada!</h1>
+
+    <p style="font-size: clamp(15px, 1.4vw, 17px); line-height: 1.65; color: var(--mist); max-width: 500px; margin: 0; text-wrap: pretty; animation: riseIn 640ms var(--ease-out) 560ms both;">Seu cadastro para a live <strong style="color: var(--paper);">Dia do Clínico</strong> foi realizado com sucesso. Agora entre no grupo de WhatsApp para receber os avisos, os materiais e o link de acesso à live.</p>
+
+    <a href="{{ whatsappUrl }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; border-radius: 8px; padding: 18px 34px; text-decoration: none; box-shadow: var(--glow-teal-sm); transition: background 220ms, box-shadow 220ms, transform 220ms; min-height: 54px; box-sizing: border-box; margin-top: 6px; animation: riseIn 640ms var(--ease-out) 680ms both;" style-hover="background: var(--brand-hover); color: var(--on-brand); box-shadow: var(--glow-teal-md); transform: translateY(-2px);" style-active="background: var(--brand-press); transform: translateY(0);">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.4-2.9c-.3-.4 0-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 2.6 1.1 2.6.7 3.1.7.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2 0-.1-.2-.2-.4-.3Z"></path>
+      </svg>
+      Entrar no grupo de WhatsApp
+    </a>
+
+    <div style="font-weight: 600; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); animation: riseIn 620ms var(--ease-out) 820ms both;">Confira também seu e-mail nos próximos minutos</div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; padding: 26px 20px; background: rgba(3, 16, 15, 0.72); backdrop-filter: blur(10px); border-top: 1px solid rgba(238, 244, 245, 0.1);">
+    <img src="assets/book-mark-teal.svg" alt="" style="height: 18px; width: auto;">
+    <span style="font-weight: 600; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">Experiência Medsafe · Dia do Clínico · Live 23 de julho</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:760},&quot;whatsappUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://chat.whatsapp.com/SEU-LINK-AQUI&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;WhatsApp&quot;,&quot;label&quot;:&quot;Link do grupo de WhatsApp&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      whatsappUrl: this.props.whatsappUrl ?? 'https://chat.whatsapp.com/SEU-LINK-AQUI',
+    };
+  }
+}
+</script>
+</body>
+</html>
