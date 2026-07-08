@@ -186,12 +186,12 @@
 
 <div data-screen-label="Cadastro" style="min-height: 100vh; background: transparent; font-family: var(--font-body); color: var(--paper); display: flex; flex-direction: column; isolation: isolate; position: relative;">
 
-  <!-- Motivos de marca ao fundo -->
+  <!-- Motivos de marca ao fundo — distribuídos em zigue-zague e responsivos -->
   <div aria-hidden="true" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1;">
-    <div class="deco-book" style="top: 10%; left: -120px; width: 460px; opacity: 0.05; animation: floatY 13s ease-in-out infinite;"></div>
-    <div class="deco-cluster" style="top: 6%; right: 6%; width: 150px; opacity: 0.07; animation: floatY 9s ease-in-out -2s infinite;"></div>
-    <div class="deco-cluster" style="top: 52%; left: 3%; width: 160px; opacity: 0.06; animation: floatY 11s ease-in-out -4s infinite;"></div>
-    <div class="deco-book" style="top: 70%; right: -130px; width: 420px; opacity: 0.05; animation: floatY 15s ease-in-out -1s infinite;"></div>
+    <div class="deco-book" style="top: 5%; left: -6%; width: clamp(180px, 26vw, 420px); opacity: 0.05; animation: floatY 13s ease-in-out infinite;"></div>
+    <div class="deco-cluster" style="top: 29%; right: 5%; width: clamp(96px, 12vw, 150px); opacity: 0.06; animation: floatY 9s ease-in-out -2s infinite;"></div>
+    <div class="deco-cluster" style="top: 55%; left: 4%; width: clamp(96px, 12vw, 150px); opacity: 0.06; animation: floatY 11s ease-in-out -4s infinite;"></div>
+    <div class="deco-book" style="top: 80%; right: -7%; width: clamp(170px, 24vw, 400px); opacity: 0.05; animation: floatY 15s ease-in-out -1s infinite;"></div>
   </div>
 
   <!-- Header: logo + lockup "Dia do Clínico" -->
@@ -328,8 +328,6 @@
 
   <!-- SOBRE A LIVE -->
   <section style="position: relative; overflow: hidden; padding: clamp(56px, 8vw, 104px) clamp(20px, 5vw, 56px); border-top: 1px solid rgba(238, 244, 245, 0.08);">
-    <div aria-hidden="true" style="position: absolute; left: -90px; top: 50%; transform: translateY(-50%); width: 360px; height: 360px; background: var(--teal-500); -webkit-mask: url('assets/book-symbol.svg') center / contain no-repeat; mask: url('assets/book-symbol.svg') center / contain no-repeat; opacity: 0.05; pointer-events: none;"></div>
-
     <div class="sobre-grid" style="max-width: 1120px; margin: 0 auto; position: relative;">
 
       <!-- Lado da afirmação -->
@@ -352,7 +350,6 @@
   <!-- LANÇAMENTO EXPERIÊNCIA MEDSAFE -->
   <section style="position: relative; overflow: hidden; padding: clamp(48px, 7vw, 96px) clamp(20px, 5vw, 56px); border-top: 1px solid rgba(238, 244, 245, 0.08);">
     <div aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(70% 55% at 50% 0%, rgba(8, 179, 161, 0.14) 0%, rgba(8, 179, 161, 0) 65%); pointer-events: none;"></div>
-    <div aria-hidden="true" style="position: absolute; top: -40px; right: -50px; width: 260px; height: 260px; background: var(--teal-500); -webkit-mask: url('assets/book-symbol.svg') center / contain no-repeat; mask: url('assets/book-symbol.svg') center / contain no-repeat; opacity: 0.07; pointer-events: none;"></div>
 
     <div style="position: relative; max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(32px, 4.5vw, 52px);">
 
