@@ -570,24 +570,25 @@ class Component extends DCLogic {
         const data = Object.fromEntries(formData.entries());
         try { localStorage.setItem('medsafe_lead', JSON.stringify(data)); } catch (_) {}
 
-        // Envia a inscrição para o Formspree e, ao concluir, leva para a página de Obrigado.
+        // Envia a inscrição para o Web3Forms e, ao concluir, leva para a página de Obrigado.
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalHTML = submitBtn ? submitBtn.innerHTML : '';
         if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.7'; submitBtn.textContent = 'Enviando...'; }
         const restore = () => { if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; submitBtn.innerHTML = originalHTML; } };
 
-        fetch('https://formspree.io/f/xbdverkn', {
+        formData.append('access_key', 'd71666f2-266e-4c1d-8a82-1fdc6a6718b4');
+
+        fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           body: formData,
           headers: { Accept: 'application/json' },
         })
-          .then((res) => {
-            if (res.ok) { window.location.href = 'Obrigado.dc.html'; return; }
-            return res.json().then((body) => {
-              const msg = (body && body.errors && body.errors.map((x) => x.message).join(' ')) || 'Não foi possível enviar sua inscrição. Tente novamente.';
-              alert(msg);
-              restore();
-            });
+          .then((res) => res.json())
+          .then((body) => {
+            if (body && body.success) { window.location.href = 'Obrigado.dc.html'; return; }
+            const msg = (body && body.message) || 'Não foi possível enviar sua inscrição. Tente novamente.';
+            alert(msg);
+            restore();
           })
           .catch(() => {
             alert('Não foi possível enviar sua inscrição. Verifique sua conexão e tente novamente.');
